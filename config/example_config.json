@@ -1,0 +1,19 @@
+{
+  "models": {
+    "classification": ["logistic", "mlp", "random_forest", "gradient_boosting"],
+    "regression": ["linear", "ridge", "mlp", "random_forest", "gradient_boosting"]
+  },
+  "scaling_options": ["none", "standard", "minmax", "robust"],
+  "n_repetitions": 10,
+  "use_validation_split": true,
+  "validation_size": 0.2,
+  "hyperparameter_tuning": {
+    "enabled": true,
+    "method": "optuna",
+    "n_trials": 100
+  },
+  "parallel_execution": true,
+  "max_workers": null,
+  "save_models": true,
+  "generate_report": true
+}
