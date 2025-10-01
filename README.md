@@ -60,23 +60,17 @@ Should you wish add a new model, simply extend the `AVAILABLE_MODELS` dictionary
 ```
 algorithm_selection/
     core/
-        __init__.py
         base.py              # Base classes and interfaces
         data_handler.py      # Data loading and preprocessing
     models/
-        __init__.py
         sklearn_models.py    # Scikit-learn model wrappers
     evaluation/
-        __init__.py
         evaluator.py         # Evaluation metrics and utilities
     optimisation/
-        __init__.py
         hyperparameter_tuning.py  # Hyperparameter optimisation
     pipeline/
-        __init__.py
         experiment_runner.py # Main experiment pipeline
     reporting/
-        __init__.py
         visualiser.py        # Visualisation utilities
         report_generator.py  # Report generation
 ```
