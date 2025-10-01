@@ -1,11 +1,8 @@
-# algorithm_selection/evaluation/evaluator.py
-"""Evaluation utilities for Algorithm Selection models."""
-
 import numpy as np
 from typing import Dict, List, Tuple, Optional, Union
 from sklearn.metrics import (accuracy_score, precision_score, recall_score, f1_score,
-                           mean_absolute_error, mean_squared_error, r2_score,
-                           confusion_matrix, classification_report)
+    mean_absolute_error, mean_squared_error, r2_score,
+    confusion_matrix, classification_report)
 import pandas as pd
 from ..core.base import ASEvaluation, ModelType, ASPrediction
 import logging
@@ -20,9 +17,9 @@ class ASEvaluator:
         self.evaluation_history = []
     
     def evaluate_model(self, performance_data: np.ndarray, predictions: ASPrediction,
-                      vbs_cost: float, sbs_cost: float, model_type: ModelType,
-                      true_labels: Optional[np.ndarray] = None,
-                      dataset_type: str = 'test') -> ASEvaluation:
+        vbs_cost: float, sbs_cost: float, model_type: ModelType,
+        true_labels: Optional[np.ndarray] = None,
+        dataset_type: str = 'test') -> ASEvaluation:
         """Evaluate AS model performance with comprehensive metrics."""
         
         # Calculate average cost and SBS-VBS gap
@@ -96,11 +93,11 @@ class ASEvaluator:
             'r2_score': r2_score(true_costs, predicted_costs)
         }
         
-        # Add normalized metrics
+        # Add normalised metrics
         true_mean = np.mean(true_costs)
         if true_mean > 0:
-            metrics['normalized_mae'] = metrics['mae'] / true_mean
-            metrics['normalized_rmse'] = metrics['rmse'] / true_mean
+            metrics['normalised_mae'] = metrics['mae'] / true_mean
+            metrics['normalised_rmse'] = metrics['rmse'] / true_mean
         
         return metrics
     
@@ -129,7 +126,7 @@ class ASEvaluator:
         }
     
     def calculate_portfolio_metrics(self, train_performance: np.ndarray, 
-                                  test_performance: np.ndarray) -> Dict[str, Dict[str, float]]:
+            test_performance: np.ndarray) -> Dict[str, Dict[str, float]]:
         """Calculate VBS and SBS metrics for the algorithm portfolio."""
         metrics = {}
         

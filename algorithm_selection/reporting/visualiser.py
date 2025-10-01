@@ -1,4 +1,3 @@
-# algorithm_selection/reporting/visualiser.py
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -10,8 +9,8 @@ from matplotlib.figure import Figure
 plt.style.use('seaborn-v0_8-darkgrid')
 
 
-class ASVisualizer:
-    """Creates visualizations for AS experiments."""
+class ASVisualiser:
+    """Creates visualisations for AS experiments."""
     
     def __init__(self, style: str = 'seaborn-v0_8-darkgrid'):
         plt.style.use(style)
@@ -30,7 +29,7 @@ class ASVisualizer:
         width = 0.8
         
         bars = ax.bar(x, plot_data['mean'], width, yerr=plot_data['std'], 
-                      capsize=5, alpha=0.8)
+            capsize=5, alpha=0.8)
         
         # Color by model type
         model_types = plot_data['model_type'].unique()
@@ -44,7 +43,7 @@ class ASVisualizer:
         ax.set_title(title or f'{metric} Comparison Across Models')
         ax.set_xticks(x)
         ax.set_xticklabels([f"{row['model_name']}\n({row['scaler_type']})" 
-                           for _, row in plot_data.iterrows()], rotation=45, ha='right')
+            for _, row in plot_data.iterrows()], rotation=45, ha='right')
         
         # Add legend
         patches = [mpatches.Patch(color=colors[mt], label=mt) for mt in model_types]
@@ -54,7 +53,7 @@ class ASVisualizer:
         return fig
     
     def plot_scaling_impact(self, results_df: pd.DataFrame, metric: str = 'test_sbs_vbs_gap') -> Figure:
-        """Visualize the impact of feature scaling."""
+        """Visualise the impact of feature scaling."""
         fig, ax = plt.subplots(figsize=(10, 6))
         
         # Prepare data
@@ -63,7 +62,7 @@ class ASVisualizer:
         
         # Create heatmap
         sns.heatmap(pivot_data, annot=True, fmt='.3f', cmap='YlOrRd', 
-                   cbar_kws={'label': metric}, ax=ax)
+            cbar_kws={'label': metric}, ax=ax)
         
         ax.set_title(f'Impact of Feature Scaling on {metric}')
         ax.set_xlabel('Scaling Method')
@@ -97,34 +96,34 @@ class ASVisualizer:
         return fig
     
     def plot_algorithm_selection_heatmap(self, performance_data: np.ndarray, 
-                                       predicted_algorithms: np.ndarray,
-                                       instance_subset: Optional[slice] = None) -> Figure:
+            predicted_algorithms: np.ndarray,
+            instance_subset: Optional[slice] = None) -> Figure:
         """Create a heatmap showing algorithm selection decisions."""
         fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 8), 
-                                       gridspec_kw={'height_ratios': [3, 1]})
+            gridspec_kw={'height_ratios': [3, 1]})
         
         # Subset data if requested
         if instance_subset is not None:
             performance_data = performance_data[instance_subset]
             predicted_algorithms = predicted_algorithms[instance_subset]
         else:
-            # Limit to first 100 instances for visualization
+            # Limit to first 100 instances for visualisation
             performance_data = performance_data[:100]
             predicted_algorithms = predicted_algorithms[:100]
         
-        # Normalize performance data for better visualization
+        # Normalise performance data for better visualisation
         norm_performance = (performance_data - performance_data.min(axis=1, keepdims=True)) / \
-                          (performance_data.max(axis=1, keepdims=True) - performance_data.min(axis=1, keepdims=True))
+            (performance_data.max(axis=1, keepdims=True) - performance_data.min(axis=1, keepdims=True))
         
         # Performance heatmap
         im1 = ax1.imshow(norm_performance.T, aspect='auto', cmap='RdYlGn_r')
         ax1.set_xlabel('Instance')
         ax1.set_ylabel('Algorithm')
-        ax1.set_title('Algorithm Performance Heatmap (Normalized)')
+        ax1.set_title('Algorithm Performance Heatmap (Normalised)')
         
         # Add colorbar
         cbar = plt.colorbar(im1, ax=ax1)
-        cbar.set_label('Normalized Cost')
+        cbar.set_label('Normalised Cost')
         
         # Mark selected algorithms
         for i, alg in enumerate(predicted_algorithms):

@@ -1,4 +1,3 @@
-# algorithm_selection/reporting/report_generator.py
 from pathlib import Path
 from typing import Dict, List, Any, Optional
 import pandas as pd
@@ -104,9 +103,9 @@ for selecting the best algorithm from a portfolio on a per-instance basis.
 
 Full results are available in `full_results.csv`.
 
-## Visualizations
+## Visualisations
 
-Visualizations can be found in the `visualizations/` directory:
+Visualisations can be found in the `visualisations/` directory:
 - `model_comparison_cost.png`: Comparison of average costs across models
 - `model_comparison_gap.png`: Comparison of SBS-VBS gaps across models
 - `scaling_impact.png`: Impact of feature scaling on performance
@@ -221,7 +220,7 @@ Based on the experimental results:
     </div>
     
     <h2>Model Comparison</h2>
-    <img src="visualizations/model_comparison_gap.png" alt="Model Comparison">
+    <img src="visualisations/model_comparison_gap.png" alt="Model Comparison">
     
     <h2>Configuration</h2>
     <pre>{{ config }}</pre>

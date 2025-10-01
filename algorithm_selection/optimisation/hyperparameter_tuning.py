@@ -1,4 +1,3 @@
-# algorithm_selection/optimisation/hyperparameter_tuning.py
 import numpy as np
 from typing import Dict, Any, List, Optional, Union, Callable
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV, cross_val_score
@@ -86,16 +85,16 @@ class ASHyperparameterOptimizer:
         return self.best_params
     
     def _optuna_optimization(self, model_class: type, model_type: str, param_space: Dict[str, Any],
-                           X_train: np.ndarray, y_train: np.ndarray,
-                           X_val: Optional[np.ndarray], y_val: Optional[np.ndarray],
-                           n_trials: int) -> Dict[str, Any]:
+        X_train: np.ndarray, y_train: np.ndarray,
+        X_val: Optional[np.ndarray], y_val: Optional[np.ndarray],
+        n_trials: int) -> Dict[str, Any]:
         """Perform Optuna-based Bayesian optimisation."""
         logger.info("Starting Optuna optimisation")
         
         # Create objective function
         objective = partial(self._optuna_objective, model_class=model_class, model_type=model_type,
-                          param_space=param_space, X_train=X_train, y_train=y_train,
-                          X_val=X_val, y_val=y_val)
+            param_space=param_space, X_train=X_train, y_train=y_train,
+            X_val=X_val, y_val=y_val)
         
         # Create study
         self.study = optuna.create_study(direction='minimize', sampler=optuna.samplers.TPESampler())
@@ -110,8 +109,8 @@ class ASHyperparameterOptimizer:
         return self.best_params
     
     def _optuna_objective(self, trial: optuna.Trial, model_class: type, model_type: str,
-                         param_space: Dict[str, Any], X_train: np.ndarray, y_train: np.ndarray,
-                         X_val: Optional[np.ndarray], y_val: Optional[np.ndarray]) -> float:
+        param_space: Dict[str, Any], X_train: np.ndarray, y_train: np.ndarray,
+        X_val: Optional[np.ndarray], y_val: Optional[np.ndarray]) -> float:
         """Objective function for Optuna optimisation."""
         
         # Sample hyperparameters
@@ -121,7 +120,7 @@ class ASHyperparameterOptimizer:
                 params[param_name] = trial.suggest_int(param_name, param_config['low'], param_config['high'])
             elif param_config['type'] == 'float':
                 params[param_name] = trial.suggest_float(param_name, param_config['low'], param_config['high'],
-                                                       log=param_config.get('log', False))
+                log=param_config.get('log', False))
             elif param_config['type'] == 'categorical':
                 params[param_name] = trial.suggest_categorical(param_name, param_config['choices'])
         
@@ -166,7 +165,7 @@ class ASHyperparameterOptimizer:
             
             return fig1, fig2
         except ImportError:
-            logger.warning("Optuna visualization requires plotly. Install with: pip install plotly")
+            logger.warning("Optuna visualisation plotly error")
             return None, None
 
 

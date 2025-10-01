@@ -1,4 +1,3 @@
-# algorithm_selection/core/data_handler.py
 import numpy as np
 from pathlib import Path
 from typing import Tuple, Optional, List, Union
@@ -51,9 +50,9 @@ class DataHandler:
             self._load_metadata()
             
             logger.info(f"Data loaded successfully: {train_features.shape[0]} train instances, "
-                       f"{test_features.shape[0]} test instances, "
-                       f"{train_features.shape[1]} features, "
-                       f"{train_perf.shape[1]} algorithms")
+                f"{test_features.shape[0]} test instances, "
+                f"{train_features.shape[1]} features, "
+                f"{train_perf.shape[1]} algorithms")
             
             return train_perf, train_features, test_perf, test_features
             
@@ -81,7 +80,7 @@ class DataHandler:
         return data
     
     def _validate_data_consistency(self, train_perf: np.ndarray, train_features: np.ndarray,
-                                  test_perf: np.ndarray, test_features: np.ndarray):
+            test_perf: np.ndarray, test_features: np.ndarray):
         """Validate that loaded data has consistent shapes."""
         if train_perf.shape[0] != train_features.shape[0]:
             raise ValueError("Training performance and features have different number of instances")
@@ -103,7 +102,7 @@ class DataHandler:
                 logger.info("Metadata loaded successfully")
     
     def preprocess_features(self, train_features: np.ndarray, test_features: np.ndarray,
-                          scaler_type: str = 'standard') -> Tuple[np.ndarray, np.ndarray]:
+            scaler_type: str = 'standard') -> Tuple[np.ndarray, np.ndarray]:
         """Preprocess features with various scaling options."""
         scalers = {
             'standard': StandardScaler(),
@@ -122,7 +121,7 @@ class DataHandler:
         return train_scaled, test_scaled
     
     def create_validation_split(self, train_features: np.ndarray, train_performance: np.ndarray,
-                              val_size: float = 0.2, random_state: int = 42) -> Tuple[np.ndarray, ...]:
+            val_size: float = 0.2, random_state: int = 42) -> Tuple[np.ndarray, ...]:
         """Create a validation split from training data."""
         X_train, X_val, y_train, y_val = train_test_split(
             train_features, train_performance, test_size=val_size, random_state=random_state

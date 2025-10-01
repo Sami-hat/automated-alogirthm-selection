@@ -1,6 +1,3 @@
-# algorithm_selection/pipeline/experiment_runner.py
-"""Comprehensive experiment runner for Algorithm Selection."""
-
 import numpy as np
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Any, Union
@@ -18,7 +15,7 @@ from ..core.data_handler import DataHandler
 from ..models.sklearn_models import SklearnASModel
 from ..evaluation.evaluator import ASEvaluator
 from ..optimisation.hyperparameter_tuning import ASHyperparameterOptimizer, HYPERPARAMETER_SPACES
-from ..reporting.visualiser import ASVisualizer
+from ..reporting.visualiser import ASVisualiser
 from ..reporting.report_generator import ReportGenerator
 
 logger = logging.getLogger(__name__)
@@ -72,7 +69,7 @@ class ExperimentRunner:
     """Runs comprehensive AS experiments with various configurations."""
     
     def __init__(self, data_dir: Union[str, Path], output_dir: Union[str, Path], 
-                 config: Optional[ExperimentConfig] = None):
+            config: Optional[ExperimentConfig] = None):
         self.data_dir = Path(data_dir)
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
@@ -80,7 +77,7 @@ class ExperimentRunner:
         self.config = config or ExperimentConfig()
         self.data_handler = DataHandler(self.data_dir)
         self.evaluator = ASEvaluator()
-        self.visualizer = ASVisualizer()
+        self.visualiser = ASVisualiser()
         
         self.results = []
         self.trained_models = {}
@@ -130,8 +127,8 @@ class ExperimentRunner:
             # Analyze results
             summary = self._analyze_results(results)
             
-            # Generate visualizations
-            self._generate_visualizations(results, summary)
+            # Generate visualisations
+            self._generate_visualisations(results, summary)
             
             # Generate report
             if self.config.generate_report:
@@ -155,9 +152,9 @@ class ExperimentRunner:
             raise
     
     def _run_sequential_experiments(self, train_perf: np.ndarray, train_features: np.ndarray,
-                                  test_perf: np.ndarray, test_features: np.ndarray,
-                                  val_perf: Optional[np.ndarray], val_features: Optional[np.ndarray],
-                                  portfolio_metrics: Dict[str, Dict[str, float]]) -> List[Dict[str, Any]]:
+            test_perf: np.ndarray, test_features: np.ndarray,
+            val_perf: Optional[np.ndarray], val_features: Optional[np.ndarray],
+            portfolio_metrics: Dict[str, Dict[str, float]]) -> List[Dict[str, Any]]:
         """Run experiments sequentially."""
         results = []
         
@@ -176,9 +173,9 @@ class ExperimentRunner:
         return results
     
     def _run_parallel_experiments(self, train_perf: np.ndarray, train_features: np.ndarray,
-                                test_perf: np.ndarray, test_features: np.ndarray,
-                                val_perf: Optional[np.ndarray], val_features: Optional[np.ndarray],
-                                portfolio_metrics: Dict[str, Dict[str, float]]) -> List[Dict[str, Any]]:
+            test_perf: np.ndarray, test_features: np.ndarray,
+            val_perf: Optional[np.ndarray], val_features: Optional[np.ndarray],
+            portfolio_metrics: Dict[str, Dict[str, float]]) -> List[Dict[str, Any]]:
         """Run experiments in parallel."""
         results = []
         
@@ -214,10 +211,10 @@ class ExperimentRunner:
         return results
     
     def _run_single_experiment(self, model_type: ModelType, model_name: str, scaler_type: str,
-                             repetition: int, train_perf: np.ndarray, train_features: np.ndarray,
-                             test_perf: np.ndarray, test_features: np.ndarray,
-                             val_perf: Optional[np.ndarray], val_features: Optional[np.ndarray],
-                             portfolio_metrics: Dict[str, Dict[str, float]]) -> Dict[str, Any]:
+            repetition: int, train_perf: np.ndarray, train_features: np.ndarray,
+            test_perf: np.ndarray, test_features: np.ndarray,
+            val_perf: Optional[np.ndarray], val_features: Optional[np.ndarray],
+            portfolio_metrics: Dict[str, Dict[str, float]]) -> Dict[str, Any]:
         """Run a single experiment configuration."""
         
         logger.info(f"Running {model_name} ({model_type.value}) with {scaler_type} scaling, rep {repetition}")
@@ -328,9 +325,9 @@ class ExperimentRunner:
                 'test_avg_cost': r['test_evaluation']['avg_cost'],
                 'test_sbs_vbs_gap': r['test_evaluation']['sbs_vbs_gap'],
                 **{f"train_{k}": v for k, v in r['train_evaluation'].items() 
-                   if k not in ['avg_cost', 'sbs_vbs_gap', 'dataset_type']},
+                if k not in ['avg_cost', 'sbs_vbs_gap', 'dataset_type']},
                 **{f"test_{k}": v for k, v in r['test_evaluation'].items() 
-                   if k not in ['avg_cost', 'sbs_vbs_gap', 'dataset_type']}
+                if k not in ['avg_cost', 'sbs_vbs_gap', 'dataset_type']}
             }
             for r in results
         ])
@@ -362,27 +359,27 @@ class ExperimentRunner:
         
         return summary
     
-    def _generate_visualizations(self, results: List[Dict[str, Any]], summary: Dict[str, Any]):
-        """Generate comprehensive visualizations."""
-        viz_dir = self.experiment_dir / 'visualizations'
+    def _generate_visualisations(self, results: List[Dict[str, Any]], summary: Dict[str, Any]):
+        """Generate comprehensive visualisations."""
+        viz_dir = self.experiment_dir / 'visualisations'
         viz_dir.mkdir(exist_ok=True)
         
         df = summary['full_results_df']
         
         # Performance comparison
-        fig = self.visualizer.plot_model_comparison(df, 'test_avg_cost', 'Average Cost (Test)')
+        fig = self.visualiser.plot_model_comparison(df, 'test_avg_cost', 'Average Cost (Test)')
         fig.savefig(viz_dir / 'model_comparison_cost.png', dpi=300, bbox_inches='tight')
         
-        fig = self.visualizer.plot_model_comparison(df, 'test_sbs_vbs_gap', 'SBS-VBS Gap (Test)')
+        fig = self.visualiser.plot_model_comparison(df, 'test_sbs_vbs_gap', 'SBS-VBS Gap (Test)')
         fig.savefig(viz_dir / 'model_comparison_gap.png', dpi=300, bbox_inches='tight')
         
         # Scaling impact
-        fig = self.visualizer.plot_scaling_impact(df, 'test_sbs_vbs_gap')
+        fig = self.visualiser.plot_scaling_impact(df, 'test_sbs_vbs_gap')
         fig.savefig(viz_dir / 'scaling_impact.png', dpi=300, bbox_inches='tight')
         
         # Learning curves (if multiple repetitions)
         if self.config.n_repetitions > 1:
-            fig = self.visualizer.plot_learning_curves(df)
+            fig = self.visualiser.plot_learning_curves(df)
             fig.savefig(viz_dir / 'learning_curves.png', dpi=300, bbox_inches='tight')
         
         # Feature importance (for best model)
@@ -391,7 +388,7 @@ class ExperimentRunner:
             best_model = self.trained_models[best_model_key]
             importance = best_model.get_feature_importance()
             if importance is not None:
-                fig = self.visualizer.plot_feature_importance(
+                fig = self.visualiser.plot_feature_importance(
                     importance, self.data_handler.feature_names
                 )
                 fig.savefig(viz_dir / 'feature_importance_best_model.png', dpi=300, bbox_inches='tight')
