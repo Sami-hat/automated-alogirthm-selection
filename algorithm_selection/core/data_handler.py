@@ -11,8 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 class DataHandler:
-    """Handles data loading, preprocessing, and validation."""
-    
+    """Handles data loading, preprocessing, and validation"""
     SUPPORTED_FORMATS = ['.txt', '.csv', '.npy', '.npz']
     
     def __init__(self, data_dir: Union[str, Path]):
@@ -23,7 +22,7 @@ class DataHandler:
         self.algorithm_names = None
         
     def _validate_data_directory(self):
-        """Validate that the data directory exists and has required structure."""
+        """Validate that the data directory exists and has required structure"""
         if not self.data_dir.exists():
             raise FileNotFoundError(f"Data directory not found: {self.data_dir}")
             
@@ -33,7 +32,7 @@ class DataHandler:
                 raise FileNotFoundError(f"Required subdirectory '{subdir}' not found in {self.data_dir}")
     
     def load_data(self) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
-        """Load training and test data with enhanced error handling."""
+        """Load training and test data with enhanced error handling"""
         try:
             # Load performance data
             train_perf = self._load_file(self.data_dir / 'train' / 'performance-data.txt')
@@ -61,7 +60,7 @@ class DataHandler:
             raise
     
     def _load_file(self, filepath: Path) -> np.ndarray:
-        """Load a single data file with format detection."""
+        """Load data files"""
         if not filepath.exists():
             raise FileNotFoundError(f"File not found: {filepath}")
             
@@ -81,7 +80,6 @@ class DataHandler:
     
     def _validate_data_consistency(self, train_perf: np.ndarray, train_features: np.ndarray,
             test_perf: np.ndarray, test_features: np.ndarray):
-        """Validate that loaded data has consistent shapes."""
         if train_perf.shape[0] != train_features.shape[0]:
             raise ValueError("Training performance and features have different number of instances")
         if test_perf.shape[0] != test_features.shape[0]:
@@ -92,7 +90,7 @@ class DataHandler:
             raise ValueError("Training and test sets have different number of features")
     
     def _load_metadata(self):
-        """Load metadata about features and algorithms if available."""
+        """Load metadata about features and algorithms (if available)"""
         metadata_path = self.data_dir / 'metadata.json'
         if metadata_path.exists():
             with open(metadata_path, 'r') as f:
@@ -103,7 +101,7 @@ class DataHandler:
     
     def preprocess_features(self, train_features: np.ndarray, test_features: np.ndarray,
             scaler_type: str = 'standard') -> Tuple[np.ndarray, np.ndarray]:
-        """Preprocess features with various scaling options."""
+        """Preprocess features with various scaling options"""
         scalers = {
             'standard': StandardScaler(),
             'minmax': MinMaxScaler(),
@@ -121,8 +119,8 @@ class DataHandler:
         return train_scaled, test_scaled
     
     def create_validation_split(self, train_features: np.ndarray, train_performance: np.ndarray,
-            val_size: float = 0.2, random_state: int = 42) -> Tuple[np.ndarray, ...]:
-        """Create a validation split from training data."""
+            val_size: float = 0.2, random_state: int = 1) -> Tuple[np.ndarray, ...]:
+        """Create a validation split from training data"""
         X_train, X_val, y_train, y_val = train_test_split(
             train_features, train_performance, test_size=val_size, random_state=random_state
         )

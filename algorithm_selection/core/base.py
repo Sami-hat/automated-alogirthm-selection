@@ -11,14 +11,14 @@ logger = logging.getLogger(__name__)
 
 
 class ModelType(Enum):
-    """Enumeration for model types."""
+    """Model types"""
     CLASSIFICATION = "classification"
     REGRESSION = "regression"
 
 
 @dataclass
 class ASPrediction:
-    """Data class for AS model predictions."""
+    """Data class for AS model predictions"""
     selected_algorithms: np.ndarray
     predicted_costs: Optional[np.ndarray] = None
     confidence_scores: Optional[np.ndarray] = None
@@ -27,14 +27,13 @@ class ASPrediction:
 
 @dataclass
 class ASEvaluation:
-    """Data class for AS model evaluation results."""
+    """Data class for AS model evaluation results"""
     avg_cost: float
     sbs_vbs_gap: float
     metrics: Dict[str, float]
     dataset_type: str  # 'train' or 'test'
     
     def to_dict(self) -> Dict[str, Any]:
-        """Convert evaluation results to dictionary."""
         return {
             'avg_cost': self.avg_cost,
             'sbs_vbs_gap': self.sbs_vbs_gap,
@@ -44,8 +43,7 @@ class ASEvaluation:
 
 
 class BaseASModel(ABC):
-    """Abstract base class for Algorithm Selection models."""
-    
+    """Base class for Algorithm Selection models"""
     def __init__(self, model_type: ModelType, name: str):
         self.model_type = model_type
         self.name = name
@@ -54,17 +52,17 @@ class BaseASModel(ABC):
         
     @abstractmethod
     def fit(self, X: np.ndarray, y: np.ndarray, **kwargs) -> 'BaseASModel':
-        """Fit the model to training data."""
+        """Fit the model to training data"""
         pass
     
     @abstractmethod
     def predict(self, X: np.ndarray) -> ASPrediction:
-        """Make predictions on new instances."""
+        """Make predictions on new instances"""
         pass
     
     @abstractmethod
     def get_params(self) -> Dict[str, Any]:
-        """Get model parameters."""
+        """Get model parameters"""
         pass
     
     def __repr__(self) -> str:

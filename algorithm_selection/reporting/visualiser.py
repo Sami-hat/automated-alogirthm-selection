@@ -10,15 +10,14 @@ plt.style.use('seaborn-v0_8-darkgrid')
 
 
 class ASVisualiser:
-    """Creates visualisations for AS experiments."""
-    
+    """Visualisations for AS experiments"""
     def __init__(self, style: str = 'seaborn-v0_8-darkgrid'):
         plt.style.use(style)
         self.colors = sns.color_palette("husl", 10)
     
     def plot_model_comparison(self, results_df: pd.DataFrame, metric: str, 
                             title: Optional[str] = None) -> Figure:
-        """Create a comparison plot for different models."""
+        """Comparison plot for different models"""
         fig, ax = plt.subplots(figsize=(12, 6))
         
         # Prepare data
@@ -53,7 +52,7 @@ class ASVisualiser:
         return fig
     
     def plot_scaling_impact(self, results_df: pd.DataFrame, metric: str = 'test_sbs_vbs_gap') -> Figure:
-        """Visualise the impact of feature scaling."""
+        """Plot impact of feature scaling"""
         fig, ax = plt.subplots(figsize=(10, 6))
         
         # Prepare data
@@ -72,7 +71,7 @@ class ASVisualiser:
         return fig
     
     def plot_learning_curves(self, results_df: pd.DataFrame) -> Figure:
-        """Plot learning curves across repetitions."""
+        """Plot learning curves across repetitions"""
         fig, axes = plt.subplots(2, 2, figsize=(12, 10))
         axes = axes.ravel()
         
@@ -98,7 +97,7 @@ class ASVisualiser:
     def plot_algorithm_selection_heatmap(self, performance_data: np.ndarray, 
             predicted_algorithms: np.ndarray,
             instance_subset: Optional[slice] = None) -> Figure:
-        """Create a heatmap showing algorithm selection decisions."""
+        """Heatmap showing algorithm selection decisions"""
         fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 8), 
             gridspec_kw={'height_ratios': [3, 1]})
         
@@ -142,7 +141,7 @@ class ASVisualiser:
     
     def plot_feature_importance(self, importance_scores: np.ndarray, 
                               feature_names: Optional[List[str]] = None) -> Figure:
-        """Plot feature importance scores."""
+        """Plot feature importance scores"""
         fig, ax = plt.subplots(figsize=(10, 6))
         
         n_features = len(importance_scores)
@@ -170,7 +169,7 @@ class ASVisualiser:
         return fig
     
     def plot_performance_distribution(self, results_df: pd.DataFrame) -> Figure:
-        """Plot distribution of performance metrics."""
+        """Plot distribution of performance metrics"""
         fig, axes = plt.subplots(2, 2, figsize=(12, 10))
         
         metrics = [

@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 class SklearnASModel(BaseASModel):
-    """Wrapper for scikit-learn models in the AS framework."""
+    """Wrapper for scikit-learn models in the AS framework"""
     
     AVAILABLE_MODELS = {
         ModelType.CLASSIFICATION: {
@@ -45,7 +45,7 @@ class SklearnASModel(BaseASModel):
         self._training_scores = None
     
     def fit(self, X: np.ndarray, y: np.ndarray, validation_data: Optional[Tuple[np.ndarray, np.ndarray]] = None, **kwargs) -> 'SklearnASModel':
-        """Fit the model with optional validation."""
+        """Fit the model with optional validation"""
         # Prepare target variable based on model type
         if self.model_type == ModelType.CLASSIFICATION:
             y_processed = np.argmin(y, axis=1)
@@ -77,7 +77,7 @@ class SklearnASModel(BaseASModel):
         return self
     
     def predict(self, X: np.ndarray) -> ASPrediction:
-        """Make predictions with confidence scores when available."""
+        """Make predictions with confidence scores when available"""
         if not self.is_fitted:
             raise RuntimeError("Model must be fitted before making predictions")
         
@@ -106,7 +106,7 @@ class SklearnASModel(BaseASModel):
         )
     
     def get_params(self) -> Dict[str, Any]:
-        """Get model parameters."""
+        """Get model parameters"""
         params = {
             'model_type': self.model_type.value,
             'model_name': self.name,
@@ -117,7 +117,7 @@ class SklearnASModel(BaseASModel):
         return params
     
     def get_feature_importance(self) -> Optional[np.ndarray]:
-        """Get feature importance if available."""
+        """Get feature importance if available"""
         if hasattr(self._model, 'feature_importances_'):
             return self._model.feature_importances_
         elif hasattr(self._model, 'coef_'):

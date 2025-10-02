@@ -10,8 +10,7 @@ logger = logging.getLogger(__name__)
 
 
 class ReportGenerator:
-    """Generates HTML and markdown reports for AS experiments."""
-    
+    """HTML and markdown reports for AS experiments"""
     def __init__(self, output_dir: Path):
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
@@ -20,7 +19,6 @@ class ReportGenerator:
                                     summary: Dict[str, Any],
                                     portfolio_metrics: Dict[str, Dict[str, float]],
                                     config: Dict[str, Any]):
-        """Generate a comprehensive experiment report."""
         
         # Generate markdown report
         md_report = self._generate_markdown_report(results, summary, portfolio_metrics, config)
@@ -43,7 +41,6 @@ class ReportGenerator:
                                 summary: Dict[str, Any],
                                 portfolio_metrics: Dict[str, Dict[str, float]],
                                 config: Dict[str, Any]) -> str:
-        """Generate markdown report."""
         
         report = f"""# Algorithm Selection Experiment Report
 
@@ -131,7 +128,7 @@ Based on the experimental results:
                             summary: Dict[str, Any],
                             portfolio_metrics: Dict[str, Dict[str, float]],
                             config: Dict[str, Any]) -> str:
-        """Generate HTML report."""
+        """Generate HTML report"""
         
         html_template = """
 <!DOCTYPE html>
@@ -240,7 +237,7 @@ Based on the experimental results:
         return html_content
     
     def _generate_csv_summaries(self, results: List[Dict[str, Any]], summary: Dict[str, Any]):
-        """Generate CSV summary files."""
+        """CSV summary files"""
         
         # Model comparison summary
         comparison_data = []
@@ -268,8 +265,7 @@ Based on the experimental results:
         agg_stats.to_csv(self.output_dir / 'aggregated_statistics.csv')
     
     def _get_scaling_recommendation(self, results_df: pd.DataFrame) -> str:
-        """Generate scaling recommendation based on results."""
-        
+        """Scaling recommendation based on results"""
         scaling_performance = results_df.groupby('scaler_type')['test_sbs_vbs_gap'].mean()
         best_scaling = scaling_performance.idxmin()
         

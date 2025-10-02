@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 
 class ASHyperparameterOptimizer:
-    """Advanced hyperparameter optimisation for AS models."""
+    """Advanced hyperparameter optimisation for AS models"""
     
     def __init__(self, optimization_method: str = 'optuna'):
         self.optimization_method = optimization_method
@@ -24,7 +24,7 @@ class ASHyperparameterOptimizer:
                 X_train: np.ndarray, y_train: np.ndarray,
                 X_val: Optional[np.ndarray] = None, y_val: Optional[np.ndarray] = None,
                 n_trials: int = 100, cv_folds: int = 5) -> Dict[str, Any]:
-        """Optimize hyperparameters using specified method."""
+        """Optimize hyperparameters using specified method"""
         
         if self.optimization_method == 'grid':
             return self._grid_search(model_class, param_space, X_train, y_train, cv_folds)
@@ -38,7 +38,7 @@ class ASHyperparameterOptimizer:
     
     def _grid_search(self, model_class: type, param_grid: Dict[str, List],
                     X: np.ndarray, y: np.ndarray, cv_folds: int) -> Dict[str, Any]:
-        """Perform grid search optimisation."""
+        """Perform grid search optimisation"""
         logger.info("Starting grid search optimisation")
         
         base_model = model_class()
@@ -61,7 +61,7 @@ class ASHyperparameterOptimizer:
     
     def _random_search(self, model_class: type, param_distributions: Dict[str, Any],
                       X: np.ndarray, y: np.ndarray, cv_folds: int, n_iter: int) -> Dict[str, Any]:
-        """Perform randomized search optimisation."""
+        """Perform randomized search optimisation"""
         logger.info("Starting randomized search optimisation")
         
         base_model = model_class()
@@ -88,7 +88,7 @@ class ASHyperparameterOptimizer:
         X_train: np.ndarray, y_train: np.ndarray,
         X_val: Optional[np.ndarray], y_val: Optional[np.ndarray],
         n_trials: int) -> Dict[str, Any]:
-        """Perform Optuna-based Bayesian optimisation."""
+        """Perform Optuna-based Bayesian optimisation"""
         logger.info("Starting Optuna optimisation")
         
         # Create objective function
@@ -111,7 +111,7 @@ class ASHyperparameterOptimizer:
     def _optuna_objective(self, trial: optuna.Trial, model_class: type, model_type: str,
         param_space: Dict[str, Any], X_train: np.ndarray, y_train: np.ndarray,
         X_val: Optional[np.ndarray], y_val: Optional[np.ndarray]) -> float:
-        """Objective function for Optuna optimisation."""
+        """Objective function for Optuna optimisation"""
         
         # Sample hyperparameters
         params = {}
@@ -143,7 +143,7 @@ class ASHyperparameterOptimizer:
         return score
     
     def get_param_importance(self) -> Optional[pd.DataFrame]:
-        """Get parameter importance from Optuna study."""
+        """Get parameter importance from Optuna study"""
         if self.study is None:
             return None
         
@@ -152,7 +152,7 @@ class ASHyperparameterOptimizer:
         return df.sort_values('importance', ascending=False)
     
     def plot_optimization_history(self):
-        """Plot optimisation history."""
+        """Plot optimisation history"""
         if self.study is None:
             logger.warning("No Optuna study available for plotting")
             return

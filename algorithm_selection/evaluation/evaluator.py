@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 class ASEvaluator:
-    """Comprehensive evaluator for Algorithm Selection models."""
+    """Comprehensive evaluator for Algorithm Selection models"""
     
     def __init__(self):
         self.evaluation_history = []
@@ -20,7 +20,7 @@ class ASEvaluator:
         vbs_cost: float, sbs_cost: float, model_type: ModelType,
         true_labels: Optional[np.ndarray] = None,
         dataset_type: str = 'test') -> ASEvaluation:
-        """Evaluate AS model performance with comprehensive metrics."""
+        """Evaluate AS model performance with comprehensive metrics"""
         
         # Calculate average cost and SBS-VBS gap
         avg_cost = self._calculate_avg_cost(performance_data, predictions.selected_algorithms)
@@ -47,19 +47,19 @@ class ASEvaluator:
         return evaluation
     
     def _calculate_avg_cost(self, performance_data: np.ndarray, selected_algorithms: np.ndarray) -> float:
-        """Calculate average cost of selected algorithms."""
+        """Calculate average cost of selected algorithms"""
         n_instances = len(selected_algorithms)
         costs = performance_data[np.arange(n_instances), selected_algorithms]
         return np.mean(costs)
     
     def _calculate_sbs_vbs_gap(self, avg_cost: float, vbs_cost: float, sbs_cost: float) -> float:
-        """Calculate SBS-VBS gap metric."""
+        """Calculate SBS-VBS gap metric"""
         if sbs_cost == vbs_cost:
             return 0.0
         return (avg_cost - vbs_cost) / (sbs_cost - vbs_cost)
     
     def _evaluate_classification(self, predictions: np.ndarray, true_labels: np.ndarray) -> Dict[str, float]:
-        """Evaluate classification model metrics."""
+        """Evaluate classification model metrics"""
         if true_labels is None:
             raise ValueError("True labels required for classification evaluation")
         
@@ -82,7 +82,7 @@ class ASEvaluator:
         return metrics
     
     def _evaluate_regression(self, predicted_costs: np.ndarray, true_costs: np.ndarray) -> Dict[str, float]:
-        """Evaluate regression model metrics."""
+        """Evaluate regression model metrics"""
         if predicted_costs is None:
             raise ValueError("Predicted costs required for regression evaluation")
         
@@ -102,7 +102,7 @@ class ASEvaluator:
         return metrics
     
     def _calculate_as_metrics(self, performance_data: np.ndarray, selected_algorithms: np.ndarray) -> Dict[str, float]:
-        """Calculate algorithm selection specific metrics."""
+        """Calculate algorithm selection specific metrics"""
         n_instances = len(selected_algorithms)
         
         # Calculate how often we select the optimal algorithm
@@ -127,7 +127,7 @@ class ASEvaluator:
     
     def calculate_portfolio_metrics(self, train_performance: np.ndarray, 
             test_performance: np.ndarray) -> Dict[str, Dict[str, float]]:
-        """Calculate VBS and SBS metrics for the algorithm portfolio."""
+        """Calculate VBS and SBS metrics for the algorithm portfolio"""
         metrics = {}
         
         for name, data in [('train', train_performance), ('test', test_performance)]:
@@ -147,7 +147,7 @@ class ASEvaluator:
         return metrics
     
     def generate_summary_report(self) -> pd.DataFrame:
-        """Generate a summary report of all evaluations."""
+        """Generate a summary report of all evaluations"""
         if not self.evaluation_history:
             logger.warning("No evaluations to summarize")
             return pd.DataFrame()
@@ -161,7 +161,7 @@ class ASEvaluator:
         return df
     
     def compare_models(self, evaluations: List[ASEvaluation]) -> pd.DataFrame:
-        """Compare multiple model evaluations."""
+        """Compare multiple model evaluations"""
         comparison_data = []
         
         for eval in evaluations:

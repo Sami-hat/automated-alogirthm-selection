@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 
 
 class ExperimentConfig:
-    """Configuration for AS experiments."""
+    """Configuration for AS experiments"""
     
     def __init__(self, config_dict: Optional[Dict[str, Any]] = None):
         if config_dict is None:
@@ -50,7 +50,7 @@ class ExperimentConfig:
         self.generate_report = config_dict.get('generate_report', True)
     
     def to_dict(self) -> Dict[str, Any]:
-        """Convert configuration to dictionary."""
+        """Convert configuration to dictionary"""
         return {
             'models': {k.value if isinstance(k, ModelType) else k: v for k, v in self.models.items()},
             'scaling_options': self.scaling_options,
@@ -66,7 +66,7 @@ class ExperimentConfig:
 
 
 class ExperimentRunner:
-    """Runs comprehensive AS experiments with various configurations."""
+    """Runs comprehensive AS experiments with various configurations"""
     
     def __init__(self, data_dir: Union[str, Path], output_dir: Union[str, Path], 
             config: Optional[ExperimentConfig] = None):
@@ -92,7 +92,7 @@ class ExperimentRunner:
             json.dump(self.config.to_dict(), f, indent=2)
     
     def run(self) -> Dict[str, Any]:
-        """Run the complete experiment pipeline."""
+        """Run the complete experiment pipeline"""
         logger.info(f"Starting experiment {self.experiment_id}")
         
         try:
@@ -125,7 +125,7 @@ class ExperimentRunner:
                 )
             
             # Analyze results
-            summary = self._analyze_results(results)
+            summary = self._analyse_results(results)
             
             # Generate visualisations
             self._generate_visualisations(results, summary)
@@ -155,7 +155,7 @@ class ExperimentRunner:
             test_perf: np.ndarray, test_features: np.ndarray,
             val_perf: Optional[np.ndarray], val_features: Optional[np.ndarray],
             portfolio_metrics: Dict[str, Dict[str, float]]) -> List[Dict[str, Any]]:
-        """Run experiments sequentially."""
+        """Run experiments sequentially"""
         results = []
         
         for model_type in self.config.models:
@@ -176,7 +176,7 @@ class ExperimentRunner:
             test_perf: np.ndarray, test_features: np.ndarray,
             val_perf: Optional[np.ndarray], val_features: Optional[np.ndarray],
             portfolio_metrics: Dict[str, Dict[str, float]]) -> List[Dict[str, Any]]:
-        """Run experiments in parallel."""
+        """Run experiments in parallel"""
         results = []
         
         # Create experiment configurations
@@ -215,7 +215,7 @@ class ExperimentRunner:
             test_perf: np.ndarray, test_features: np.ndarray,
             val_perf: Optional[np.ndarray], val_features: Optional[np.ndarray],
             portfolio_metrics: Dict[str, Dict[str, float]]) -> Dict[str, Any]:
-        """Run a single experiment configuration."""
+        """Run a single experiment configuration"""
         
         logger.info(f"Running {model_name} ({model_type.value}) with {scaler_type} scaling, rep {repetition}")
         
@@ -308,12 +308,12 @@ class ExperimentRunner:
         return result
     
     def _save_portfolio_metrics(self, metrics: Dict[str, Dict[str, float]]):
-        """Save portfolio metrics to file."""
+        """Save portfolio metrics to file"""
         with open(self.experiment_dir / 'portfolio_metrics.json', 'w') as f:
             json.dump(metrics, f, indent=2)
     
-    def _analyze_results(self, results: List[Dict[str, Any]]) -> Dict[str, Any]:
-        """Analyze experiment results and create summary statistics."""
+    def _analyse_results(self, results: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Analyse experiment results and create summary statistics"""
         df_results = pd.DataFrame([
             {
                 'model_type': r['model_type'],
@@ -360,7 +360,7 @@ class ExperimentRunner:
         return summary
     
     def _generate_visualisations(self, results: List[Dict[str, Any]], summary: Dict[str, Any]):
-        """Generate comprehensive visualisations."""
+        """Generate comprehensive visualisations"""
         viz_dir = self.experiment_dir / 'visualisations'
         viz_dir.mkdir(exist_ok=True)
         
