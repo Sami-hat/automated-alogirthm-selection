@@ -1,6 +1,7 @@
 # Algorithm Selection Framework
 
-Automated Algorithm Selection (AS) using ML. This tool has been developed to experiment with different model types, enabling automated selection of the best algorithm from a portfolio on a per-instance basis. The primary metrics are used to show its efficacy: SBS-VBS gap, accuracy, and regret
+Automated Algorithm Selection (AS) using ML. This tool has been developed to experiment with different model types, enabling automated selection of the best algorithm from a portfolio on a per-instance basis. 
+The primary metrics are used to show its efficacy: SBS-VBS gap, accuracy, and regret
 
     SBS represents the case where the algorithm with the lowest average cost is assumed to be our best algorithm
     VBS assumes that the truly best algorithm for a given instance is always chosen
@@ -45,7 +46,7 @@ results = runner.run()
 # Basic usage
 python main.py data/ results/
 
-# With custom configuration
+# Custom configuration
 python main.py data/ results/ --config config/example_config.json
 
 # Specify models and options
@@ -54,16 +55,13 @@ python main.py data/ results/ --models logistic mlp --scaling none standard --re
 
 ## Project Structure
 
-The code has been made as modular as possible for better readability
-Should you wish add a new model, simply extend the `AVAILABLE_MODELS` dictionary in `sklearn_models.py`:
-
 ```
 algorithm_selection/
     core/
         base.py              # Base classes and interfaces
         data_handler.py      # Data loading and preprocessing
     models/
-        sklearn_models.py    # Scikit-learn model wrappers
+        sklearn_models.py    # Scikit-learn model wrappers (code made modular for new models to be added)
     evaluation/
         evaluator.py         # Evaluation metrics and utilities
     optimisation/
@@ -72,7 +70,7 @@ algorithm_selection/
         experiment_runner.py # Main experiment pipeline
     reporting/
         visualiser.py        # Visualisation utilities
-        report_generator.py  # Report generation
+        report_generator.py  # Report generator
 ```
 
 The data folders have been left empty for your own datasets:
